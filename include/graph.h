@@ -17,6 +17,10 @@ bool operator==(const Vertex& v1, const Vertex& v2) {
   return v1.id == v2.id;
 }
 
+bool operator!=(const Vertex& v1, const Vertex& v2) {
+  return !(v1 == v2);
+}
+
 struct Edge {
   std::pair<Vertex, Vertex> vertices;
   bool isDirected;
@@ -42,6 +46,10 @@ bool operator==(const Edge& e1, const Edge& e2) {
     return e1EqualsE2 || (e1.vertices.first == e2.vertices.second
                           && e1.vertices.second == e2.vertices.first);
   }
+}
+
+bool operator!=(const Edge& e1, const Edge& e2) {
+  return !(e1 == e2);
 }
 
 struct Path {

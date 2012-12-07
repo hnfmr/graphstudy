@@ -5,13 +5,34 @@
 
 namespace gs {
 
+struct VertexComp {
+  bool operator()(const Vertex& a, const Vertex& b) const {
+    return a.id < b.id;
+  }
+};
+
+struct EdgeComp {
+  bool operator()(const Edge& a, const Edge& b) const {
+    if (a.isDirected != b.isDirected) {
+      return false;
+    }
+
+    return a.vertices.first.id < b.vertices.first.id;
+  }
+};
+
 class Graph::D {
 public:
-  D() : isTablesInitialized(false) {}
+  D() : vertexTables(),
+        edgeTables(),
+        isTablesInitialized(false) {}
   ~D() {}
 
-  std::map<Vertex, VertexTableRow> vertexTables;
-  std::map<Edge, EdgeTableRow> edgeTables;
+
+
+  std::map<Vertex, VertexTableRow, VertexComp> vertexTables;
+
+  std::map<Edge, EdgeTableRow, EdgeComp> edgeTables;
 
   bool isTablesInitialized;
 
