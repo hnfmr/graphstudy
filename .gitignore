@@ -18,3 +18,7 @@
 *.pro
 bin
 build
+
+
+.cproject
+.project

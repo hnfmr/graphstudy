@@ -11,7 +11,7 @@ struct Vertex {
   int id;
 };
 
-constexpr Vertex Nil = {-1};
+const Vertex Nil = {-1};
 
 bool operator==(const Vertex& v1, const Vertex& v2) {
   return v1.id == v2.id;
@@ -21,6 +21,8 @@ struct Edge {
   std::pair<Vertex, Vertex> vertices;
   bool isDirected;
 };
+
+const Edge NilEdge = {std::make_pair(Nil, Nil), false};
 
 bool operator==(const Edge& e1, const Edge& e2) {
   // Cannot compare edges from digraph and undirected graph.
@@ -42,18 +44,13 @@ bool operator==(const Edge& e1, const Edge& e2) {
   }
 }
 
-class Graph {
-public:
-  Graph() {}
-  ~Graph() {}
-
-  std::vector<std::unique_ptr<Vertex> > vertices_;
-  std::vector<Edge> edges_;
+struct Path {
+  std::vector<const Edge> edges;
 };
 
 struct VertexTableRow {
-  std::vector<std::shared_ptr<Edge> > incidentEdges_;
-  std::shared_ptr<Edge> currentEdge_;
+  std::vector<const Edge> incidentEdges;
+  Edge currentEdge;
 };
 
 struct EdgeTableRow {
@@ -61,5 +58,20 @@ struct EdgeTableRow {
   Vertex second;
   bool isUsed;
 };
+
+class Graph {
+public:
+  Graph(const std::vector<const Edge>& edges);
+  ~Graph();
+
+  void trace(Vertex startVertex, Path& path);
+
+private:
+  std::vector<Edge> edges_;
+  class D;
+  std::unique_ptr<D> d;
+};
+
+
 } // namespace gl {
 #endif
